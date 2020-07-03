@@ -62,13 +62,13 @@ if [ -z $INTERFACE ]; then
   usage;
 fi
 
-if result=$(ifconfig ${INTERFACE} 2>&1); then
-  vhids=$(echo "${result}" | awk "/carp:.*vhid ${VHID}/ { print \$2 \" \"  \$4 \" \" \$6 \" \" \$8 }")
-  echo "${vhids}" | { while read carp_state vhid advbase advskew; do
-    if [ ! -z "${vhid}" ]; then
+if result=$(ifconfig $INTERFACE 2>&1); then
+  vhids=$(echo "$result" | awk "/carp:.*vhid ${VHID}/ { print \$2 \" \"  \$4 \" \" \$6 \" \" \$8 }")
+  echo "$vhids" | { while read carp_state vhid advbase advskew; do
+    if [ ! -z "$vhid" ]; then
       VHID=$vhid
 
-      if [ $carp_state = $EXPECTED_STATE ]; then
+      if [ "$carp_state" = "$EXPECTED_STATE" ]; then
         MSG="OK"
         RET=$STATE_OK
       else
@@ -77,10 +77,10 @@ if result=$(ifconfig ${INTERFACE} 2>&1); then
       fi
 
 
-      report $RET $MSG "state ${carp_state} (vhid ${VHID} advbase ${advbase} advskew ${advskew})"
+      report $RET $MSG "state $carp_state (vhid $VHID advbase $advbase advskew $advskew)"
     else
-      output="can't find CARP state for ${INTERFACE}"
-      report $STATE_CRITICAL "CRITICAL" "${output}"
+      output="can't find CARP state for $INTERFACE"
+      report $STATE_CRITICAL "CRITICAL" "$output"
     fi
 
     break;
