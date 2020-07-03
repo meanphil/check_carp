@@ -86,8 +86,8 @@ if result=$(ifconfig $INTERFACE 2>&1); then
     break;
   done }
 
-  if [ -z "${vhids}" -a $? -eq 0 ]; then
-    report $STATE_CRITICAL "CRITICAL" "can't find CARP state for ${INTERFACE}"
+  if [ -z "$vhids" -a $? -eq 0 ]; then
+    report $STATE_CRITICAL "CRITICAL" "can't find CARP state for $INTERFACE"
   fi
 else
   report $STATE_UNKNOWN "UNKNOWN" "$result"
