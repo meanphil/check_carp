@@ -58,7 +58,7 @@ done
 
 INTERFACE=$( echo "${@}" | sed 's/[^a-z0-9]//g' )
 
-if [ "s" = "s${INTERFACE}" ]; then
+if [ -z $INTERFACE ]; then
   usage;
 fi
 
